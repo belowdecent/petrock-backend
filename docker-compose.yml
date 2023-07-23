@@ -1,15 +1,14 @@
-version: '3.8'
+version: '3'
 services:
   dev-db:
     image: postgres:13
     ports:
       - 5434:5432
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 123
-      POSTGRES_DB: nest
+    env_file:
+      - docker.env
     networks:
       - mynetwrk
 networks:
   mynetwrk:
+    driver: bridge
 
