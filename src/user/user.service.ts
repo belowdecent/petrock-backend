@@ -3,31 +3,24 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './user.entity';
 import { DataSource, Repository } from 'typeorm';
 import * as argon from 'argon2';
+import { EditUserDto } from '../dto';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(UserEntity)
-    private usersRepository: Repository<UserEntity>,
+    private usersRepo: Repository<UserEntity>,
   ) {}
 
-  async findAll() {
-    return this.usersRepository.find();
-  }
-
-  async remove(id: number) {
-    await this.usersRepository.delete(id);
-  }
-
-  async create(email: string, password: string) {
-    const passHash = await argon.hash(password);
-
-    const newUser = this.usersRepository.create({
-      email: email,
-      passHash: passHash,
+  async editUser(userId: number, dto: EditUserDto) {
+    await this.usersRepo.update({
+      id: userId
+    }, {
+      ...dto
     });
 
-    await this.usersRepository.save(newUser);
-    return newUser;
+    return await this.usersRepo.findOneBy({
+      id: userId
+    });
   }
 }

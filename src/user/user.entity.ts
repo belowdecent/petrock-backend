@@ -10,4 +10,10 @@ export class UserEntity {
 
   @Column()
   passHash: string;
+
+  @Column({ nullable: true})
+  firstName: string;
+
+  @Column({ nullable: true })
+  lastName: string;
 }

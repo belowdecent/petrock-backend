@@ -6,6 +6,7 @@ import { UserService } from './user.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([UserEntity])],
+  exports: [TypeOrmModule],
   controllers: [UserController],
   providers: [UserService],
 })

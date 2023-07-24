@@ -1,18 +1,22 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Patch, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
+import { GetUser } from '../get-user/get-user.decorator';
+import { UserEntity } from './user.entity';
+import { EditUserDto } from '../dto/edit-user.dto';
+import { AuthGuard } from '@nestjs/passport';
 
+@UseGuards(AuthGuard('jwt'))
 @Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Get()
-  async getAllUsers() {
-    return await this.userService.findAll();
+  @Get('me')
+  async getMe(@GetUser() user: UserEntity) {
+    return user;
   }
 
-  @Post()
-  async createUser(@Body('email') email: string, @Body('password') password: string) {
-    console.log('good');
-    return await this.userService.create(email, password);
+  @Patch()
+  editUser(@GetUser('id') userId: number, @Body() dto: EditUserDto) {
+    return this.userService.editUser(userId, dto);
   }
 }
