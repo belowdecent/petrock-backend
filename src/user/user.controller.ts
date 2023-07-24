@@ -11,7 +11,7 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get('me')
-  async getMe(@GetUser() user: UserEntity) {
+  async getMe(@GetUser('id') user: number) {
     return user;
   }
 

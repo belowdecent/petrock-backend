@@ -45,9 +45,9 @@ export class AuthService {
       passHash,
     });
 
-    this.usersRepo.save(user);
+    const generatedUser = await this.usersRepo.save(user);
 
-    return this.signToken(user.id, user.email);
+    return this.signToken(generatedUser.id, generatedUser.email);
   }
 
   async signToken(userId: number, email: string) {

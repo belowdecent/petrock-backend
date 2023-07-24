@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable, UseGuards } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { PetRockEntity } from './pet-rock.entity';
@@ -10,21 +10,67 @@ export class PetRockService {
   constructor(
     @InjectRepository(PetRockEntity)
     private petRockRepo: Repository<PetRockEntity>,
+    @InjectRepository(UserEntity)
+    private userRepo: Repository<UserEntity>
   ) {}
 
-  getPetRocks(user: UserEntity) {
-    return user.rocks;
+  async getPetRocks(userId: number) {
+    return await this.petRockRepo.findBy({userId});
   }
 
-  getPetRockById(user: UserEntity, petRockId: number) {
-    return user.rocks.find((i) => i.id === petRockId);
+  async getPetRockById(userId: number, petRockId: number) {
+    const rock = await this.petRockRepo.findOneBy({
+      id: petRockId
+    });
+
+    if (!rock || rock.userId != userId) throw new ForbiddenException("Not your rock");
+
+    return rock;
   }
 
-  async createPetRock(user: UserEntity, dto: CreatePetRockDto) {}
+  async createPetRock(userId: number, dto: CreatePetRockDto) {
+    const pet = this.petRockRepo.create({
+      userId: userId,
+      ...dto,
+    });
+
+    await this.petRockRepo.save(pet);
+    return pet;
+  }
+
   async editPetRockById(
-    user: UserEntity,
+    userId: number,
     petRockId: number,
     dto: EditPetRockDto,
-  ) {}
-  async deletePetRockById(user: UserEntity, petRockId: number) {}
+  ) {
+    const petrock = await this.petRockRepo.findOneBy({
+      id: petRockId,
+    });
+
+    if (!petrock || petrock.userId != userId) throw new ForbiddenException('Not your petrock');
+
+    await this.petRockRepo.update({
+      id: petRockId,
+    }, {
+      ...dto
+    });
+
+    return this.petRockRepo.findOneBy({
+      id: petRockId,
+    });
+  }
+
+  async deletePetRockById(userId: number, petRockId: number) {
+    const petrock = await this.petRockRepo.findOneBy({
+      id: petRockId,
+    });
+
+    if (!petrock || petrock.userId != userId) throw new ForbiddenException('Not your petrock');
+
+    await this.petRockRepo.delete({
+      id: petRockId,
+    });
+
+    return petrock;
+  }
 }

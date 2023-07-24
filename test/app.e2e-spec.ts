@@ -4,7 +4,7 @@ import { AppModule } from '../src/app.module';
 
 import * as pactum from 'pactum';
 import { AuthDto } from '../src/dto';
-import { CreatePetRockDto, EditPetRockDto } from '../src/dto';
+import { CreatePetRockDto } from '../src/dto';
 
 describe('App e2e', () => {
   let app: INestApplication;
@@ -291,6 +291,21 @@ describe('App e2e', () => {
     });
 
     describe('Edit by id', () => {
+      it('should not edit a pet rock', () => {
+        return pactum
+          .spec()
+          .patch('/pets/{id}')
+          .withPathParams('id', '$S{petId}')
+          .withHeaders({
+            Authorization: 'Bearer dsafjkla.sdfadsf.adsasd',
+          })
+          .withBody({
+            name: "Dave",
+            color: "blue"
+          })
+          .expectStatus(401);
+      });
+
       it('should edit a pet rock', () => {
         return pactum
           .spec()

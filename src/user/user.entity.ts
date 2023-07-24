@@ -17,7 +17,4 @@ export class UserEntity {
 
   @Column({ nullable: true })
   lastName: string;
-
-  @OneToMany(() => PetRockEntity, (rock) => rock.user)
-  rocks: PetRockEntity[];
 }
