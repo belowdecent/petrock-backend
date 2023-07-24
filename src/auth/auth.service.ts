@@ -15,7 +15,7 @@ export class AuthService {
     @InjectRepository(UserEntity)
     private usersRepo: Repository<UserEntity>,
     private jwt: JwtService,
-    private config: ConfigService
+    private config: ConfigService,
   ) {}
 
   async login(dto: AuthDto) {
@@ -46,7 +46,7 @@ export class AuthService {
     });
 
     this.usersRepo.save(user);
-    
+
     return this.signToken(user.id, user.email);
   }
 

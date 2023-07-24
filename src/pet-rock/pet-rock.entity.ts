@@ -1,19 +1,19 @@
-import { UserEntity } from "../user/user.entity";
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { UserEntity } from '../user/user.entity';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class PetRockEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ })
+  @Column({})
   name: string;
 
-  @Column({ })
+  @Column({})
   color: string;
 
   @ManyToOne(() => UserEntity, (user) => user.rocks, {
-    cascade: true
+    cascade: true,
   })
-  user: UserEntity
+  user: UserEntity;
 }

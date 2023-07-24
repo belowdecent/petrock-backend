@@ -7,6 +7,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 @Module({
   imports: [TypeOrmModule.forFeature([PetRockEntity])],
   controllers: [PetRockController],
-  providers: [PetRockService]
+  providers: [PetRockService],
 })
 export class PetRockModule {}

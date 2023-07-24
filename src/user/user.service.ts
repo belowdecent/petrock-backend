@@ -1,8 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './user.entity';
-import { DataSource, Repository } from 'typeorm';
-import * as argon from 'argon2';
+import { Repository } from 'typeorm';
 import { EditUserDto } from '../dto';
 
 @Injectable()
@@ -13,14 +12,17 @@ export class UserService {
   ) {}
 
   async editUser(userId: number, dto: EditUserDto) {
-    await this.usersRepo.update({
-      id: userId
-    }, {
-      ...dto
-    });
+    await this.usersRepo.update(
+      {
+        id: userId,
+      },
+      {
+        ...dto,
+      },
+    );
 
     return await this.usersRepo.findOneBy({
-      id: userId
+      id: userId,
     });
   }
 }

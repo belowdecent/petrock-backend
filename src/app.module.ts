@@ -18,7 +18,7 @@ import * as Joi from '@hapi/joi';
         PORT: Joi.number(),
         JWT_SECRET: Joi.string().required(),
       }),
-      isGlobal: true
+      isGlobal: true,
     }),
     UserModule,
     DatabaseModule,

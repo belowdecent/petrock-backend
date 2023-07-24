@@ -9,7 +9,7 @@ import { CreatePetRockDto, EditPetRockDto } from '../dto';
 export class PetRockService {
   constructor(
     @InjectRepository(PetRockEntity)
-    private petRockRepo: Repository<PetRockEntity>
+    private petRockRepo: Repository<PetRockEntity>,
   ) {}
 
   getPetRocks(user: UserEntity) {
@@ -17,10 +17,14 @@ export class PetRockService {
   }
 
   getPetRockById(user: UserEntity, petRockId: number) {
-    return user.rocks.find(i => i.id === petRockId);
+    return user.rocks.find((i) => i.id === petRockId);
   }
 
   async createPetRock(user: UserEntity, dto: CreatePetRockDto) {}
-  async editPetRockById(user: UserEntity, petRockId: number, dto: EditPetRockDto) {}
+  async editPetRockById(
+    user: UserEntity,
+    petRockId: number,
+    dto: EditPetRockDto,
+  ) {}
   async deletePetRockById(user: UserEntity, petRockId: number) {}
 }
