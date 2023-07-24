@@ -3,6 +3,7 @@ import { UserModule } from './user/user.module';
 import { DatabaseModule } from './database/database.module';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
+import { PetRockModule } from './pet-rock/pet-rock.module';
 import * as Joi from '@hapi/joi';
 
 @Module({
@@ -22,6 +23,7 @@ import * as Joi from '@hapi/joi';
     UserModule,
     DatabaseModule,
     AuthModule,
+    PetRockModule,
   ],
   controllers: [],
   providers: [],

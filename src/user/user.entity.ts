@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { PetRockEntity } from "../pet-rock/pet-rock.entity";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class UserEntity {
@@ -16,4 +17,7 @@ export class UserEntity {
 
   @Column({ nullable: true })
   lastName: string;
+
+  @OneToMany(() => PetRockEntity, (rock) => rock.user)
+  rocks: PetRockEntity[]
 }
