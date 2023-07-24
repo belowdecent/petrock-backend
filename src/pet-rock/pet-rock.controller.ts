@@ -17,7 +17,7 @@ export class PetRockController {
   }
 
   @Get(':id')
-  getPetById(
+  async getPetById(
     @GetUser('id') userId: number,
     @Param('id', ParseIntPipe) petRockId: number,
   ) {
