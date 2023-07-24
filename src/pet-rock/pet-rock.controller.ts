@@ -12,7 +12,6 @@ export class PetRockController {
 
   @Get()
   async getPets(@GetUser('id') userId: number) {
-    console.log(userId);
     return await this.petRockService.getPetRocks(userId);
   }
 
