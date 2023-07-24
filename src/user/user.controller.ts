@@ -11,8 +11,8 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get('me')
-  async getMe(@GetUser('id') user: number) {
-    return user;
+  async getMe(@GetUser('id') userId: number) {
+    return await this.userService.getUser(userId);
   }
 
   @Patch()

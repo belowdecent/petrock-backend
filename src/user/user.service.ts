@@ -11,6 +11,12 @@ export class UserService {
     private usersRepo: Repository<UserEntity>,
   ) {}
 
+  async getUser(userId: number) {
+    return await this.usersRepo.findOneBy({
+      id: userId,
+    });
+  }
+
   async editUser(userId: number, dto: EditUserDto) {
     await this.usersRepo.update(
       {
